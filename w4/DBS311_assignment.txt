@@ -1,0 +1,53 @@
+ID NAME                                       ORDER ID DATE     SHIPPED           TOT SALES      
+---------- ---------------------------------------- ---------- --------            -----------             ----------------
+        44 Jabil Circuit                                    92      15-10-28         790              $1,050,939.97
+        44 Jabil Circuit                                    10      17-01-24         883                $620,962.99
+        44 Jabil Circuit                                    29      17-08-14         831                $508,588.59
+        44 Jabil Circuit                                    82      16-12-03         687                $398,636.25 
+
+SELECT c.customer_id AS "ID", c.name AS "NAME",oi.order_id AS "ORDER ID",
+            to_char(o.order_date,'YY-MM-DD')AS "DATE" ,
+            sum(quantity) AS "SHIPPED",to_char(sum(quantity*unit_price),'L99,999,999.99')AS "TOT SALES"
+from orders o
+inner join
+order_items oi on o.order_id=oi.order_id
+inner join 
+customers c on o.customer_id=c.customer_id
+group by oi.order_id, c.customer_id,c.name, o.order_date
+HAVING c.customer_id=44
+AND sum(quantity)>600
+ORDER BY sum(quantity*unit_price) DESC;
+
+
+MONTH     Number OF Orders
+--------- ----------------
+January                  5
+February                16
+March                    4
+April                    5
+May                      9
+June                    11
+July                     1
+August                  10
+September               14
+October                 14
+November                 6
+December                10
+12 rows selected. 
+
+select INITCAP(to_char(order_date,'MONTH')) AS "MONTH", count(to_char(order_date,'MONTH')) AS "Number OF Orders"
+from orders
+group by to_char(order_date,'MM'),to_char(order_date,'MONTH')
+order by to_char(order_date,'MM');
+
+
+ PRODUCT_ID PRODUCT_NAME                                       LIST_PRICE
+---------- -------------------------------------------------- ----------
+        50 Intel SSDPECME040T401                                 8867.99
+        94 Western Digital WD2500AVVS                              15.55 
+
+
+
+
+
+
